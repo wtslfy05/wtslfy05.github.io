@@ -95,7 +95,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="安裝-OpenSSL"><a href="#安裝-OpenSSL" class="headerlink" title="安裝 OpenSSL"></a>安裝 OpenSSL</h1><p>以 Windows 系統為例，開發環境已安裝 Git，直接使用 Git 的 OpenSSL，路徑 <code>C:\Program Files\Git\usr\bin\openssl.exe</code>，版本 <code>3.1.1</code></p>
+        <p>以 Windows 系統為例，開發環境已安裝 Git，直接使用 Git 的 OpenSSL，路徑 <code>C:\Program Files\Git\usr\bin\openssl.exe</code>，版本 <code>3.1.1</code></p>
 <h2 id="建立憑證"><a href="#建立憑證" class="headerlink" title="建立憑證"></a>建立憑證</h2><h3 id="建立-devcert-conf"><a href="#建立-devcert-conf" class="headerlink" title="建立 devcert.conf"></a>建立 <code>devcert.conf</code></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[req]</span><br><span class="line">prompt = no</span><br><span class="line">default_md = sha256</span><br><span class="line">default_bits = 2048</span><br><span class="line">distinguished_name = dn</span><br><span class="line">x509_extensions = v3_req</span><br><span class="line"></span><br><span class="line">[dn]</span><br><span class="line">C = TW</span><br><span class="line">ST = Taiwan</span><br><span class="line">L = New Taipei</span><br><span class="line">O = Test Inc.</span><br><span class="line">OU = IT Department</span><br><span class="line">emailAddress = admin@test.com</span><br><span class="line">CN = localhost</span><br><span class="line"></span><br><span class="line">[v3_req]</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">extendedKeyUsage  = serverAuth</span><br><span class="line"></span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1 = *.test.com</span><br></pre></td></tr></table></figure>
 
 <h3 id="建立-key-和-crt"><a href="#建立-key-和-crt" class="headerlink" title="建立 .key 和 .crt"></a>建立 <code>.key</code> 和 <code>.crt</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;C:\Program Files\Git\usr\bin\openssl.exe&quot;</span> req -x509 -new -newkey rsa -noenc -utf8 -days 30 -keyout C:\Projects\Certificates\test.key -out C:\Projects\Certificates\test.crt -config C:\Projects\Certificates\test.conf</span><br></pre></td></tr></table></figure>
@@ -109,7 +109,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/self-signed-certificate/" data-id="clqlzm8420001om59ahtl90af" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/self-signed-certificate/" data-id="clqlztpkt0003t65914243sin" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -175,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/reading-list/" data-id="clqlzm8470006om59434hd06q" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/25/reading-list/" data-id="clqlztpkq0001t659av85b29i" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -218,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/hello-world/" data-id="clqlzm83y0000om598rcpgc40" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/25/hello-world/" data-id="clqlztpkl0000t6593ntq7wxe" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
