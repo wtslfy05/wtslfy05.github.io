@@ -4,15 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>在 ASP.NET Web Forms 上使用 OAuth | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="使用 OWIN Startup 安裝 Nuget Packages  1234Install-Package Microsoft.Owin.Host.SystemWebInstall-Package Microsoft.Owin.SecurityInstall-Package Microsoft.Owin.Security.CookiesInstall-Package Microsoft.Owin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 ASP.NET Web Forms 上使用 OAuth">
+<meta property="og:url" content="http://example.com/2023/12/26/oauth-samples/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用 OWIN Startup 安裝 Nuget Packages  1234Install-Package Microsoft.Owin.Host.SystemWebInstall-Package Microsoft.Owin.SecurityInstall-Package Microsoft.Owin.Security.CookiesInstall-Package Microsoft.Owin">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
+<meta property="article:published_time" content="2023-12-26T08:46:18.000Z">
+<meta property="article:modified_time" content="2023-12-26T09:09:54.091Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -67,9 +73,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-oauth-samples" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-oauth-samples" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/12/26/oauth-samples/" class="article-date">
   <time class="dt-published" datetime="2023-12-26T08:46:18.000Z" itemprop="datePublished">2023-12-26</time>
@@ -86,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/12/26/oauth-samples/">在 ASP.NET Web Forms 上使用 OAuth</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      在 ASP.NET Web Forms 上使用 OAuth
     </h1>
   
 
@@ -117,172 +121,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-self-signed-certificate" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/12/26/self-signed-certificate/" class="article-date">
-  <time class="dt-published" datetime="2023-12-26T02:45:16.000Z" itemprop="datePublished">2023-12-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Tools/">Tools</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/12/26/self-signed-certificate/">使用 OpenSSL 建立 Self-Signed Certificate</a>
-    </h1>
+    <a href="/2023/12/26/self-signed-certificate/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用 OpenSSL 建立 Self-Signed Certificate</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>以 Windows 系統為例，開發環境已安裝 Git，直接使用 Git 的 OpenSSL，路徑 <code>C:\Program Files\Git\usr\bin\openssl.exe</code>，版本 <code>3.1.1</code></p>
-<h2 id="建立憑證"><a href="#建立憑證" class="headerlink" title="建立憑證"></a>建立憑證</h2><h3 id="建立-devcert-conf"><a href="#建立-devcert-conf" class="headerlink" title="建立 devcert.conf"></a>建立 <code>devcert.conf</code></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[req]</span><br><span class="line">prompt = no</span><br><span class="line">default_md = sha256</span><br><span class="line">default_bits = 2048</span><br><span class="line">distinguished_name = dn</span><br><span class="line">x509_extensions = v3_req</span><br><span class="line"></span><br><span class="line">[dn]</span><br><span class="line">C = TW</span><br><span class="line">ST = Taiwan</span><br><span class="line">L = New Taipei</span><br><span class="line">O = Test Inc.</span><br><span class="line">OU = IT Department</span><br><span class="line">emailAddress = admin@test.com</span><br><span class="line">CN = localhost</span><br><span class="line"></span><br><span class="line">[v3_req]</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">extendedKeyUsage  = serverAuth</span><br><span class="line"></span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1 = *.test.com</span><br></pre></td></tr></table></figure>
-
-<h3 id="建立-key-和-crt"><a href="#建立-key-和-crt" class="headerlink" title="建立 .key 和 .crt"></a>建立 <code>.key</code> 和 <code>.crt</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;C:\Program Files\Git\usr\bin\openssl.exe&quot;</span> req -x509 -new -newkey rsa -noenc -utf8 -days 30 -keyout C:\Projects\Certificates\test.key -out C:\Projects\Certificates\test.crt -config C:\Projects\Certificates\test.conf</span><br></pre></td></tr></table></figure>
-
-<h3 id="建立-pfx"><a href="#建立-pfx" class="headerlink" title="建立 .pfx"></a>建立 <code>.pfx</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;C:\Program Files\Git\usr\bin\openssl.exe&quot;</span> pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> C:\Projects\Certificates\test.crt -inkey C:\Projects\Certificates\test.key -out C:\Projects\Certificates\test.pfx -name <span class="string">&quot;Test Certificate&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://www.openssl.org/docs/man3.1/man1/openssl-req.html">openssl-req</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/self-signed-certificate/" data-id="clqm4mpz60004m4592etyetb6" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-reading-list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/12/25/reading-list/" class="article-date">
-  <time class="dt-published" datetime="2023-12-25T07:52:50.000Z" itemprop="datePublished">2023-12-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Reading-List/">Reading List</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/12/25/reading-list/">Reading List</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>讀過覺得不錯的清單</p>
-<h2 id="書單"><a href="#書單" class="headerlink" title="書單"></a>書單</h2><h3 id="Clean-Code-Clean-Architecture"><a href="#Clean-Code-Clean-Architecture" class="headerlink" title="Clean Code &#x2F; Clean Architecture"></a>Clean Code &#x2F; Clean Architecture</h3><ul>
-<li>Clean Code in C#: Refactor your legacy C# code base and improve application performance by applying best practices. By Jason Alls (有中譯本)</li>
-<li>Clean Architecture: A Craftsman’s Guide to Software Structure and Design. By Robert C. Martin (有中譯本)</li>
-<li>Get Your Hands Dirty on Clean Architecture. By Tom Hombergs (有中譯本)</li>
-</ul>
-<h3 id="Domain-Driven-Design-DDD"><a href="#Domain-Driven-Design-DDD" class="headerlink" title="Domain-Driven Design (DDD)"></a>Domain-Driven Design (DDD)</h3><ul>
-<li>Hands-On Domain-Driven Design with .NET Core. By Alexey Zimarev (有中譯本)</li>
-</ul>
-<h3 id="Design-Pattern"><a href="#Design-Pattern" class="headerlink" title="Design Pattern"></a>Design Pattern</h3><ul>
-<li>CQRS (Command Query Responsibility Segregation). By Ajay Kumar (有中譯本)</li>
-</ul>
-<h3 id="System-Design"><a href="#System-Design" class="headerlink" title="System Design"></a>System Design</h3><ul>
-<li>System Design Interview – An Insider’s Guide. By Alex Xu (有中譯本)</li>
-</ul>
-<h3 id="Web-API"><a href="#Web-API" class="headerlink" title="Web API"></a>Web API</h3><ul>
-<li>Designing Web APIs: Building APIs That Developers Love. By Amir Shevat, Brenda Jin, and Saurabh Sahni (有中譯本)</li>
-</ul>
-<h3 id="Database"><a href="#Database" class="headerlink" title="Database"></a>Database</h3><ul>
-<li>SQL Server 效能調校，陳祥輝、陳臆如、黃浩著</li>
-</ul>
-<h3 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h3><ul>
-<li>OAuth 2.0 從入門到實戰：利用驗證和授權守護API 的安全，周建毅著</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/reading-list/" data-id="clqm4mpz20001m4595vwzdg3u" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/12/25/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2023-12-25T07:27:58.231Z" itemprop="datePublished">2023-12-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Hello-World/">Hello World</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/12/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>一些常用到或容易忘記的技術筆記</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/hello-world/" data-id="clqm4mpyx0000m4596ogc5cqb" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>
