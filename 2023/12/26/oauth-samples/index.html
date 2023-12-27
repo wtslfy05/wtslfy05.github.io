@@ -14,8 +14,9 @@
 <meta property="og:description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  1234Install-Package Microsoft.Owin.Host.SystemWebInstall-Package Microsoft.Owin.Secu">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
+<meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-27_141459.png">
 <meta property="article:published_time" content="2023-12-26T08:46:18.000Z">
-<meta property="article:modified_time" content="2023-12-27T06:08:05.638Z">
+<meta property="article:modified_time" content="2023-12-27T06:19:42.481Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
@@ -121,7 +122,9 @@
 <li><p>在 <code>Login.aspx.cs</code> 新增下列程式碼</p>
  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Login</span> : <span class="title">System.Web.UI.Page</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsPostBack)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!User.Identity.IsAuthenticated)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">                authenticationManager.Challenge();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Response.Redirect(<span class="string">&quot;/Default&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行登入。</p>
+<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行驗證。</p>
+<p> 登入成功後會產生下列 Cookies</p>
+<p> <img src="/2023/12/26/oauth-samples/2023-12-27_141459.png"></p>
 </li>
 </ol>
 <p>(更新中…)</p>
@@ -129,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqndkjqs0001do59hkfidltk" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqndzc880001in599bgf506u" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

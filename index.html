@@ -117,7 +117,9 @@
 <li><p>在 <code>Login.aspx.cs</code> 新增下列程式碼</p>
  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Login</span> : <span class="title">System.Web.UI.Page</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsPostBack)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!User.Identity.IsAuthenticated)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">                authenticationManager.Challenge();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Response.Redirect(<span class="string">&quot;/Default&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行登入。</p>
+<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行驗證。</p>
+<p> 登入成功後會產生下列 Cookies</p>
+<p> <img src="/2023/12/26/oauth-samples/2023-12-27_141459.png"></p>
 </li>
 </ol>
 <p>(更新中…)</p>
@@ -125,7 +127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqndkjqs0001do59hkfidltk" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqndzc880001in599bgf506u" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -177,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/self-signed-certificate/" data-id="clqndkjqw0004do590vty3ebv" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/self-signed-certificate/" data-id="clqndzc8c0004in59dh2e6why" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -243,7 +245,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/reading-list/" data-id="clqndkjqw0003do59b1shhxvf" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/25/reading-list/" data-id="clqndzc8b0003in5907gwavfr" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -286,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/25/hello-world/" data-id="clqndkjqn0000do59825iajai" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/25/hello-world/" data-id="clqndzc840000in59byym6yak" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
