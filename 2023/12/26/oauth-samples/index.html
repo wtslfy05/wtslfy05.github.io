@@ -6,17 +6,17 @@
   
   <title>在 ASP.NET Web Forms 上使用 OAuth | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  1234Install-Package Microsoft.Owin.Host.SystemWebInstall-Package Microsoft.Owin.Secu">
+  <meta name="description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Syst">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 ASP.NET Web Forms 上使用 OAuth">
 <meta property="og:url" content="http://example.com/2023/12/26/oauth-samples/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  1234Install-Package Microsoft.Owin.Host.SystemWebInstall-Package Microsoft.Owin.Secu">
+<meta property="og:description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Syst">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
 <meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-27_141459.png">
 <meta property="article:published_time" content="2023-12-26T08:46:18.000Z">
-<meta property="article:modified_time" content="2023-12-27T06:41:15.136Z">
+<meta property="article:modified_time" content="2023-12-27T06:47:43.569Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
@@ -100,9 +100,10 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下</p>
+        <p>最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 <code>.NET Framework 4.8</code> 的專案為範例。</p>
 <h2 id="使用-OWIN-Startup"><a href="#使用-OWIN-Startup" class="headerlink" title="使用 OWIN Startup"></a>使用 OWIN Startup</h2><ol>
 <li><p>安裝 <code>Microsoft.Owin</code> Nuget Packages</p>
+<p> 版本為 <code>4.2.2</code></p>
  <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Host.SystemWeb</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security.Cookies</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security.OpenIdConnect</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>新增 <code>OWIN Startup class</code></p>
@@ -122,7 +123,7 @@
 <li><p>在 <code>Login.aspx.cs</code> 新增下列程式碼</p>
  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Login</span> : <span class="title">System.Web.UI.Page</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsPostBack)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!User.Identity.IsAuthenticated)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">                authenticationManager.Challenge();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Response.Redirect(<span class="string">&quot;/Default&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行驗證。如果要登出的話，使用 <code>HttpContext.Current.GetOwinContext().Authentication.SignOut()</code>。</p>
+<p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行驗證。<br> 如果要登出的話，使用 <code>HttpContext.Current.GetOwinContext().Authentication.SignOut()</code>。</p>
 <p> 登入成功後會產生下列 Cookies</p>
 <p> <img src="/2023/12/26/oauth-samples/2023-12-27_141459.png"></p>
 </li>
@@ -135,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqner41i0001rp59gzbmg9kx" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqnezd430000vi594skq6hhr" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
