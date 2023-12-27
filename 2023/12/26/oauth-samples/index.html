@@ -6,17 +6,17 @@
   
   <title>在 ASP.NET Web Forms 上使用 OAuth | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Syst">
+  <meta name="description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN 串接 OAuth 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Sys">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 ASP.NET Web Forms 上使用 OAuth">
 <meta property="og:url" content="http://example.com/2023/12/26/oauth-samples/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN Startup 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Syst">
+<meta property="og:description" content="最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 .NET Framework 4.8 的專案為範例。 使用 OWIN 串接 OAuth 安裝 Microsoft.Owin Nuget Packages  版本為 4.2.2  1234Install-Package Microsoft.Owin.Host.Sys">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
 <meta property="og:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-27_141459.png">
 <meta property="article:published_time" content="2023-12-26T08:46:18.000Z">
-<meta property="article:modified_time" content="2023-12-27T07:46:22.310Z">
+<meta property="article:modified_time" content="2023-12-27T07:56:46.398Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/12/26/oauth-samples/2023-12-26_161447.png">
@@ -101,7 +101,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>最近遇到舊系統要串接 OAuth，發現有些方法不像在 ASP.NET Core 上，有 Middleware 可以用，所以記錄一下，用 <code>.NET Framework 4.8</code> 的專案為範例。</p>
-<h2 id="使用-OWIN-Startup"><a href="#使用-OWIN-Startup" class="headerlink" title="使用 OWIN Startup"></a>使用 OWIN Startup</h2><ol>
+<h2 id="使用-OWIN-串接-OAuth"><a href="#使用-OWIN-串接-OAuth" class="headerlink" title="使用 OWIN 串接 OAuth"></a>使用 OWIN 串接 OAuth</h2><ol>
 <li><p>安裝 <code>Microsoft.Owin</code> Nuget Packages</p>
 <p> 版本為 <code>4.2.2</code></p>
  <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Host.SystemWeb</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security.Cookies</span><br><span class="line"><span class="built_in">Install-Package</span> Microsoft.Owin.Security.OpenIdConnect</span><br></pre></td></tr></table></figure>
@@ -127,16 +127,16 @@
 <p> 登入成功後會產生下列 Cookies</p>
 <p> <img src="/2023/12/26/oauth-samples/2023-12-27_141459.png"></p>
 </li>
-<li><p>取得 <code>Access Token</code></p>
-<p> 在 <code>Startup</code> 中，如果有設定 <code>SaveTokens = true</code>，會把 Token 存在 Cookie 裡</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (User.Identity.IsAuthenticated)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Get access token from cookie</span></span><br><span class="line">    <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">    <span class="keyword">var</span> authenticationResult = <span class="keyword">await</span> authenticationManager.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationType);</span><br><span class="line">    <span class="keyword">var</span> accessToken = authenticationResult.Properties.Dictionary[<span class="string">&quot;access_token&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call protected APIs using access token</span></span><br><span class="line">    <span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    httpClient.DefaultRequestHeaders.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<span class="string">&quot;Bearer&quot;</span>, accessToken);</span><br><span class="line">    <span class="keyword">var</span> responseBody = <span class="keyword">await</span> httpClient.GetStringAsync(<span class="string">&quot;yourRequestUri&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
+<h2 id="使用-Access-Token-呼叫-API"><a href="#使用-Access-Token-呼叫-API" class="headerlink" title="使用 Access Token 呼叫 API"></a>使用 Access Token 呼叫 API</h2><p>在 <code>Startup</code> 中，如果有設定 <code>SaveTokens = true</code>，會把 Token 存在 Cookie 裡</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (User.Identity.IsAuthenticated)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Get access token from cookie</span></span><br><span class="line">    <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">    <span class="keyword">var</span> authenticationResult = <span class="keyword">await</span> authenticationManager.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationType);</span><br><span class="line">    <span class="keyword">var</span> accessToken = authenticationResult.Properties.Dictionary[<span class="string">&quot;access_token&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call protected APIs using access token</span></span><br><span class="line">    <span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    httpClient.DefaultRequestHeaders.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<span class="string">&quot;Bearer&quot;</span>, accessToken);</span><br><span class="line">    <span class="keyword">var</span> responseBody = <span class="keyword">await</span> httpClient.GetStringAsync(<span class="string">&quot;yourRequestUri&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>(持續更新中…)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqnh3p7r0001fn59dxp1grfi" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/26/oauth-samples/" data-id="clqnhghqh0001l559fay2e9sy" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
