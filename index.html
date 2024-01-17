@@ -69,49 +69,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/01/09/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2024-01-09T06:38:20.000Z" itemprop="datePublished">2024-01-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Hello-World/">Hello World</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/01/09/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>茶葉先生的.NET Core後端筆記</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://slajabass.com/2024/01/09/hello-world/" data-id="clr8pwunj0001hy59figy5ged" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-developer-productivity-tools" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/12/29/developer-productivity-tools/" class="article-date">
@@ -146,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/29/developer-productivity-tools/" data-id="clr8pwunf0000hy590oy36hzb" data-title="Developer Productivity Tools" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/29/developer-productivity-tools/" data-id="clrhhy50y0003nr59f8fkc366" data-title="Developer Productivity Tools" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -200,12 +157,12 @@
 <p> 設定 <code>LoginPath = new PathString(&quot;/Login&quot;)</code>，Middleware 會以 <code>302 Found</code> 重新導向 <code>401 Unauthorized</code> 到登入頁面。</p>
 </li>
 <li><p>在 <code>Global.asax.cs</code> 新增下列程式碼</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Global</span> : <span class="title">HttpApplication</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Code that runs on application startup</span></span><br><span class="line">        RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">        BundleConfig.RegisterBundles(BundleTable.Bundles);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Application_AuthenticateRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> requestPath = Context.Request.FilePath;</span><br><span class="line">        <span class="keyword">var</span> isLoginPath = requestPath.Equals(<span class="string">&quot;/Login&quot;</span>, StringComparison.OrdinalIgnoreCase);</span><br><span class="line">        <span class="keyword">var</span> isCallbackPath = requestPath.Equals(<span class="string">&quot;/signin-oidc&quot;</span>, StringComparison.OrdinalIgnoreCase);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> hasUser = User != <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">var</span> isAuthenticated = hasUser &amp;&amp; User.Identity.IsAuthenticated;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!isLoginPath &amp;&amp; !isCallbackPath &amp;&amp; !isAuthenticated)</span><br><span class="line">        &#123;</span><br><span class="line">            Response.StatusCode = <span class="number">401</span>;</span><br><span class="line">            Response.End();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Global</span> : <span class="title">HttpApplication</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Code that runs on application startup</span></span><br><span class="line">        RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">        BundleConfig.RegisterBundles(BundleTable.Bundles);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Application_AuthenticateRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> requestPath = Context.Request.FilePath;</span><br><span class="line">        <span class="keyword">var</span> isLoginPath = requestPath.Equals(<span class="string">&quot;/Login&quot;</span>, StringComparison.OrdinalIgnoreCase);</span><br><span class="line">        <span class="keyword">var</span> isCallbackPath = requestPath.Equals(<span class="string">&quot;/signin-oidc&quot;</span>, StringComparison.OrdinalIgnoreCase);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> hasUser = User != <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">var</span> isAuthenticated = hasUser &amp;&amp; User.Identity.IsAuthenticated;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!isLoginPath &amp;&amp; !isCallbackPath &amp;&amp; !isAuthenticated)</span><br><span class="line">        &#123;</span><br><span class="line">            Response.StatusCode = (<span class="built_in">int</span>)HttpStatusCode.Unauthorized;</span><br><span class="line">            Response.End();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> 設定 <code>Global Authorization Policy</code>，讓系統預設為必須經過驗證。在 ASP.NET Core 上可以使用 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-8.0#require-authenticated-users">Require authenticated users</a>，在 ASP.NET Web Forms 上目前沒有找到方法，所以自行實作。</p>
 </li>
 <li><p>在 <code>Login.aspx.cs</code> 新增下列程式碼</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Login</span> : <span class="title">System.Web.UI.Page</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsPostBack)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!User.Identity.IsAuthenticated)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">                authenticationManager.Challenge();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> returnUrl = Request.QueryString[<span class="string">&quot;ReturnUrl&quot;</span>];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (returnUrl != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    Response.Redirect(returnUrl);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    Response.Redirect(<span class="string">&quot;/Default&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Login</span> : <span class="title">System.Web.UI.Page</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsPostBack)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!User.Identity.IsAuthenticated)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">                authenticationManager.Challenge();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> returnUrl = Request.QueryString[<span class="string">&quot;ReturnUrl&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (returnUrl != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Response.Redirect(returnUrl);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Response.Redirect(<span class="string">&quot;/Default&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> 使用 <code>HttpContext.Current.GetOwinContext().Authentication.Challenge()</code> 就會根據 <code>Startup</code> 的設定，自動導向到 <code>Identity Provider</code> 進行驗證。<br> 如果要登出的話，使用 <code>HttpContext.Current.GetOwinContext().Authentication.SignOut()</code>。</p>
 <p> 登入成功後會產生下列 Cookies</p>
@@ -213,12 +170,12 @@
 </li>
 </ol>
 <h2 id="使用-Access-Token-呼叫-API"><a href="#使用-Access-Token-呼叫-API" class="headerlink" title="使用 Access Token 呼叫 API"></a>使用 Access Token 呼叫 API</h2><p>在 <code>Startup</code> 中，如果有設定 <code>SaveTokens = true</code>，會把 Token 存在 Cookie 裡</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (User.Identity.IsAuthenticated)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Get access token from cookie</span></span><br><span class="line">    <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">    <span class="keyword">var</span> authenticationResult = <span class="keyword">await</span> authenticationManager.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationType);</span><br><span class="line">    <span class="keyword">var</span> accessToken = authenticationResult.Properties.Dictionary[<span class="string">&quot;access_token&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call protected APIs using access token</span></span><br><span class="line">    <span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    httpClient.DefaultRequestHeaders.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<span class="string">&quot;Bearer&quot;</span>, accessToken);</span><br><span class="line">    <span class="keyword">var</span> responseBody = <span class="keyword">await</span> httpClient.GetStringAsync(<span class="string">&quot;yourRequestUri&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (User.Identity.IsAuthenticated)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Get access token from cookie</span></span><br><span class="line">    <span class="keyword">var</span> authenticationManager = HttpContext.Current.GetOwinContext().Authentication;</span><br><span class="line">    <span class="keyword">var</span> authenticationResult = <span class="keyword">await</span> authenticationManager.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationType);</span><br><span class="line">    <span class="keyword">var</span> accessToken = authenticationResult.Properties.Dictionary[<span class="string">&quot;access_token&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call protected APIs using access token</span></span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        httpClient.DefaultRequestHeaders.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<span class="string">&quot;Bearer&quot;</span>, accessToken);</span><br><span class="line">        <span class="keyword">var</span> responseBody = <span class="keyword">await</span> httpClient.GetStringAsync(<span class="string">&quot;yourRequestUri&quot;</span>);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/26/oauth-samples/" data-id="clr8pwunp0004hy59dcva1v85" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/26/oauth-samples/" data-id="clrhhy50v0001nr59hpnk18dc" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -273,7 +230,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/26/self-signed-certificate/" data-id="clr8pwunq0005hy59gk1ahxkd" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/26/self-signed-certificate/" data-id="clrhhy50z0004nr5970liavq4" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -311,8 +268,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>推薦閱讀清單</p>
-<h2 id="書單"><a href="#書單" class="headerlink" title="書單"></a>書單</h2><h3 id="Clean-Code-Clean-Architecture"><a href="#Clean-Code-Clean-Architecture" class="headerlink" title="Clean Code &#x2F; Clean Architecture"></a>Clean Code &#x2F; Clean Architecture</h3><ul>
+        <h2 id="書單"><a href="#書單" class="headerlink" title="書單"></a>書單</h2><h3 id="Clean-Code-Clean-Architecture"><a href="#Clean-Code-Clean-Architecture" class="headerlink" title="Clean Code &#x2F; Clean Architecture"></a>Clean Code &#x2F; Clean Architecture</h3><ul>
 <li><p><a target="_blank" rel="noopener" href="https://www.amazon.com/Clean-Code-application-performance-practices/dp/1838982973">Clean Code in C#: Refactor your legacy C# code base and improve application performance by applying best practices. By Jason Alls</a></p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164">Clean Architecture: A Craftsman’s Guide to Software Structure and Design. By Robert C. Martin</a></p>
@@ -336,7 +292,10 @@
 <li><a target="_blank" rel="noopener" href="https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF">System Design Interview – An Insider’s Guide. By Alex Xu</a></li>
 </ul>
 <h3 id="Web-API"><a href="#Web-API" class="headerlink" title="Web API"></a>Web API</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Designing-Web-APIs-Building-Developers/dp/1492026921">Designing Web APIs: Building APIs That Developers Love. By Amir Shevat, Brenda Jin, and Saurabh Sahni</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.amazon.com/Designing-Web-APIs-Building-Developers/dp/1492026921">Designing Web APIs: Building APIs That Developers Love. By Amir Shevat, Brenda Jin, and Saurabh Sahni</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.amazon.com/Principles-Web-Design-James-Higginbotham/dp/0137355637">Principles of Web API Design: Delivering Value with APIs and Microservices. By James Higginbotham</a></p>
+</li>
 </ul>
 <h3 id="Database"><a href="#Database" class="headerlink" title="Database"></a>Database</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010759293">SQL Server 效能調校，陳祥輝、陳臆如、黃浩著</a></li>
@@ -351,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/25/reading-list/" data-id="clr8pwuno0003hy5981zn52y4" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/25/reading-list/" data-id="clrhhy50r0000nr5920pjds9b" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -373,7 +332,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hello-World/">Hello World</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OAuth/">OAuth</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading-List/">Reading List</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OAuth/">OAuth</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading-List/">Reading List</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tools/">Tools</a></li></ul>
     </div>
   </div>
 
@@ -388,7 +347,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
     </div>
   </div>
 
@@ -399,10 +358,6 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2024/01/09/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2023/12/29/developer-productivity-tools/">Developer Productivity Tools</a>
