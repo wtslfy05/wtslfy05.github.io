@@ -69,6 +69,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-oauth-samples-web-api" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/01/17/oauth-samples-web-api/" class="article-date">
+  <time class="dt-published" datetime="2024-01-17T09:06:27.000Z" itemprop="datePublished">2024-01-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/OAuth/">OAuth</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/01/17/oauth-samples-web-api/">在 ASP.NET Core Web Api 上使用 OAuth Token Introspection</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>用 <code>.NET 8</code> 的專案為範例</p>
+<h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><ol>
+<li><p>安裝 <code>IdentityModel.AspNetCore.OAuth2Introspection</code> Nuget Packages</p>
+<p> 版本為 <code>6.2.0</code></p>
+ <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Package</span> IdentityModel.AspNetCore.OAuth2Introspection</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 <code>Token Introspection</code></p>
+<p> 在 <code>Program.cs</code> 新增下列程式碼：</p>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">builder.Services</span><br><span class="line">    .AddAuthentication(OAuth2IntrospectionDefaults.AuthenticationScheme)</span><br><span class="line">    .AddOAuth2Introspection(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.ClientId = configuration[<span class="string">&quot;Auth:ClientId&quot;</span>];</span><br><span class="line">        options.ClientSecret = configuration[<span class="string">&quot;Auth:ClientSecret&quot;</span>];</span><br><span class="line">        options.IntrospectionEndpoint = configuration[<span class="string">&quot;Auth:IntrospectionEndpoint&quot;</span>];</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 <code>Global Authorization Policy</code></p>
+<p> 讓系統預設為必須經過驗證，不需要驗證的再使用 <code>AllowAnonymous</code> attribute。</p>
+<p> 在 <code>Program.cs</code> 新增下列程式碼：</p>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddAuthorization(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    options.FallbackPolicy = <span class="keyword">new</span> AuthorizationPolicyBuilder()</span><br><span class="line">        .RequireAuthenticatedUser()</span><br><span class="line">        .Build();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Program.cs</code> 完整程式碼</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> IdentityModel.AspNetCore.OAuth2Introspection;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authorization;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> configuration = builder.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line"></span><br><span class="line">builder.Services.AddControllers();</span><br><span class="line"></span><br><span class="line">builder.Services</span><br><span class="line">    .AddAuthentication(OAuth2IntrospectionDefaults.AuthenticationScheme)</span><br><span class="line">    .AddOAuth2Introspection(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.ClientId = configuration[<span class="string">&quot;ClientId&quot;</span>];</span><br><span class="line">        options.ClientSecret = configuration[<span class="string">&quot;ClientSecret&quot;</span>];</span><br><span class="line">        options.IntrospectionEndpoint = configuration[<span class="string">&quot;IntrospectionEndpoint&quot;</span>];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">builder.Services.AddAuthorization(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    options.FallbackPolicy = <span class="keyword">new</span> AuthorizationPolicyBuilder()</span><br><span class="line">        .RequireAuthenticatedUser()</span><br><span class="line">        .Build();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"></span><br><span class="line">app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.MapControllers();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://slajabass.com/2024/01/17/oauth-samples-web-api/" data-id="clrhkb6vn00019359dfbd8j54" data-title="在 ASP.NET Core Web Api 上使用 OAuth Token Introspection" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-developer-productivity-tools" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/12/29/developer-productivity-tools/" class="article-date">
@@ -103,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/29/developer-productivity-tools/" data-id="clrhhy50y0003nr59f8fkc366" data-title="Developer Productivity Tools" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/29/developer-productivity-tools/" data-id="clrhkb6vi000093594hlm7p8q" data-title="Developer Productivity Tools" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -175,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/26/oauth-samples/" data-id="clrhhy50v0001nr59hpnk18dc" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/26/oauth-samples/" data-id="clrhkb6vq00039359eiuufkq9" data-title="在 ASP.NET Web Forms 上使用 OAuth" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -230,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/26/self-signed-certificate/" data-id="clrhhy50z0004nr5970liavq4" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/26/self-signed-certificate/" data-id="clrhkb6vr00059359301s7g5u" data-title="使用 OpenSSL 建立 Self-Signed Certificate" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -310,7 +370,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://slajabass.com/2023/12/25/reading-list/" data-id="clrhhy50r0000nr5920pjds9b" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://slajabass.com/2023/12/25/reading-list/" data-id="clrhkb6vq00049359fott3tw3" data-title="Reading List" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -347,7 +407,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
     </div>
   </div>
 
@@ -358,6 +418,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/01/17/oauth-samples-web-api/">在 ASP.NET Core Web Api 上使用 OAuth Token Introspection</a>
+          </li>
         
           <li>
             <a href="/2023/12/29/developer-productivity-tools/">Developer Productivity Tools</a>
