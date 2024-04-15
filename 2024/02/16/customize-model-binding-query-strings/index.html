@@ -28,7 +28,7 @@
 <meta property="og:description" content="使用 IValueProviderFactory Interface 自訂 Query Strings 轉換格式">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-02-16T04:20:34.000Z">
-<meta property="article:modified_time" content="2024-04-12T08:23:38.529Z">
+<meta property="article:modified_time" content="2024-04-15T03:01:25.551Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
 
@@ -194,7 +194,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-04-12 16:23:38" itemprop="dateModified" datetime="2024-04-12T16:23:38+08:00">2024-04-12</time>
+      <time title="Modified: 2024-04-15 11:01:25" itemprop="dateModified" datetime="2024-04-15T11:01:25+08:00">2024-04-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -220,13 +220,13 @@
 <h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><ol>
 <li><p>建立 <code>ASP.NET Core Web API (.NET 8)</code> 專案</p>
 </li>
-<li><p>新增 <code>Data Transfer Object (DTO)</code></p>
+<li><p>新增 <code>DTO (Data Transfer Object)</code></p>
 <p> 封裝 Query Strings</p>
  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">Purchasing.UseCases.Dtos</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">record</span> <span class="title">PurchaseOrderDto</span>(<span class="params">DateTime? StartDate, DateTime? EndDate</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>新增 <code>API Controller</code></p>
 <p> Response 的部分不影響這個範例，所以省略實作細節。</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Purchasing.UseCases.Dtos;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Purchasing.Api.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Route(<span class="string">&quot;[controller]&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">ApiController</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PurchaseOrdersController</span> : <span class="title">ControllerBase</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">HttpGet</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">ListAll</span>(<span class="params">[FromQuery] PurchaseOrderDto dto</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Purchasing.UseCases.Dtos;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Purchasing.Api.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Route(<span class="string">&quot;[controller]&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">ApiController</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PurchaseOrdersController</span> : <span class="title">ControllerBase</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">HttpGet</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">ListPurchaseOrdersAsync</span>(<span class="params">[FromQuery] PurchaseOrderDto dto</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>實作 <code>SnakeCase</code> 的轉換方法</p>
 <p> 讀者可以自行實作，在這邊筆者直接參考 <a target="_blank" rel="noopener" href="https://github.com/JamesNK/Newtonsoft.Json/blob/master/Src/Newtonsoft.Json/Utilities/StringUtils.cs">Newtonsoft.Json&#x2F;Utilities&#x2F;StringUtils.cs</a>。</p>

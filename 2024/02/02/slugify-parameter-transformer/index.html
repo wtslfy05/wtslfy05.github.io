@@ -28,7 +28,7 @@
 <meta property="og:description" content="使用 IOutboundParameterTransformer Interface 自訂 Slugify Parameter Transformer">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-02-02T02:20:22.000Z">
-<meta property="article:modified_time" content="2024-04-12T08:25:38.579Z">
+<meta property="article:modified_time" content="2024-04-15T03:01:16.123Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
 
@@ -194,7 +194,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-04-12 16:25:38" itemprop="dateModified" datetime="2024-04-12T16:25:38+08:00">2024-04-12</time>
+      <time title="Modified: 2024-04-15 11:01:16" itemprop="dateModified" datetime="2024-04-15T11:01:16+08:00">2024-04-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -221,7 +221,7 @@
 <li><p>建立 <code>ASP.NET Core Web API (.NET 8)</code> 專案</p>
 </li>
 <li><p>新增 <code>API Controller</code></p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Purchasing.Api.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Route(<span class="string">&quot;[controller]&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">ApiController</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PurchaseOrdersController</span> : <span class="title">ControllerBase</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">HttpGet</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">ListAll</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> Ok();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Purchasing.Api.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Route(<span class="string">&quot;[controller]&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">ApiController</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PurchaseOrdersController</span> : <span class="title">ControllerBase</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">HttpGet</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">ListPurchaseOrdersAsync</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>新增 <code>SlugifyParameterTransformer</code> Class</p>
 <p> 實作 <code>IOutboundParameterTransformer</code> Interface 的 <code>TransformOutbound</code> Method，用 <code>Regular Expression</code> 進行轉換。</p>
