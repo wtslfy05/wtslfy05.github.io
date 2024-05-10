@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png">
 <meta property="article:published_time" content="2024-05-10T05:49:14.000Z">
-<meta property="article:modified_time" content="2024-05-10T07:55:37.281Z">
+<meta property="article:modified_time" content="2024-05-10T08:03:45.625Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png">
@@ -190,7 +190,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-05-10 13:49:14 / Modified: 15:55:37" itemprop="dateCreated datePublished" datetime="2024-05-10T13:49:14+08:00">2024-05-10</time>
+      <time title="Created: 2024-05-10 13:49:14 / Modified: 16:03:45" itemprop="dateCreated datePublished" datetime="2024-05-10T13:49:14+08:00">2024-05-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -242,7 +242,7 @@
 <p>在 Container 設定憑證密碼，<code>&lt;password&gt;</code>為憑證密碼。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">進入 Container</span></span><br><span class="line">docker exec -it seq bash</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 Seq 指令將密碼設定在 Config</span></span><br><span class="line">echo &lt;password&gt; | seqsvr secret set -k certificates.defaultPassword --value-stdin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">離開 Container</span></span><br><span class="line">exit</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重新啟動 Container</span></span><br><span class="line">docker restart seq</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="用-admin-帳號登入"><a href="#用-admin-帳號登入" class="headerlink" title="用 admin 帳號登入"></a>用 <code>admin</code> 帳號登入</h2><p>https:&#x2F;&#x2F;<seq_host>:<host_ui_port>&#x2F;</p>
+<h2 id="用-admin-帳號登入"><a href="#用-admin-帳號登入" class="headerlink" title="用 admin 帳號登入"></a>用 <code>admin</code> 帳號登入</h2><p><code>https://&lt;seq_host&gt;:&lt;host_ui_port&gt;/</code></p>
 <p><img src="/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png" alt="image info"></p>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><p><a target="_blank" rel="noopener" href="https://docs.datalust.co/docs/getting-started-with-docker">Getting Started with Docker</a></p>
