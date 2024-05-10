@@ -20,27 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"slajabass.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="使用 OpenSSL 建立 Self-Signed Certificate">
+    <meta name="description" content="在 Ubuntu 上使用 Docker 架設 Seq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用 OpenSSL 建立 Self-Signed Certificate">
-<meta property="og:url" content="https://slajabass.com/2023/12/26/self-signed-certificate/index.html">
+<meta property="og:title" content="使用 Seq 作為 Log 管理工具 - (1)">
+<meta property="og:url" content="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/index.html">
 <meta property="og:site_name" content="茶葉先生的 .NET 開發手札">
-<meta property="og:description" content="使用 OpenSSL 建立 Self-Signed Certificate">
+<meta property="og:description" content="在 Ubuntu 上使用 Docker 架設 Seq">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-12-26T02:45:16.000Z">
-<meta property="article:modified_time" content="2024-01-17T16:55:50.960Z">
+<meta property="og:image" content="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png">
+<meta property="article:published_time" content="2024-05-10T05:49:14.000Z">
+<meta property="article:modified_time" content="2024-05-10T07:55:37.281Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png">
 
 
-<link rel="canonical" href="https://slajabass.com/2023/12/26/self-signed-certificate/">
+<link rel="canonical" href="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://slajabass.com/2023/12/26/self-signed-certificate/","path":"2023/12/26/self-signed-certificate/","title":"使用 OpenSSL 建立 Self-Signed Certificate"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/","path":"2024/05/10/seq-with—docker-on-ubuntu/","title":"使用 Seq 作為 Log 管理工具 - (1)"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>使用 OpenSSL 建立 Self-Signed Certificate | 茶葉先生的 .NET 開發手札</title>
+<title>使用 Seq 作為 Log 管理工具 - (1) | 茶葉先生的 .NET 開發手札</title>
   
 
 
@@ -112,7 +114,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E6%86%91%E8%AD%89"><span class="nav-number">1.</span> <span class="nav-text">建立憑證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-test-conf"><span class="nav-number">1.1.</span> <span class="nav-text">建立 test.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-key-%E5%92%8C-crt"><span class="nav-number">1.2.</span> <span class="nav-text">建立 .key 和 .crt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-pfx"><span class="nav-number">1.3.</span> <span class="nav-text">建立 .pfx</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenSSL"><span class="nav-number">2.</span> <span class="nav-text">OpenSSL</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-Docker-%E5%BB%BA%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">用 Docker 建置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-admin-%E5%B8%B3%E8%99%9F%E7%99%BB%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">用 admin 帳號登入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -158,7 +160,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2023/12/26/self-signed-certificate/">
+    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -171,12 +173,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="使用 OpenSSL 建立 Self-Signed Certificate | 茶葉先生的 .NET 開發手札">
-      <meta itemprop="description" content="使用 OpenSSL 建立 Self-Signed Certificate">
+      <meta itemprop="name" content="使用 Seq 作為 Log 管理工具 - (1) | 茶葉先生的 .NET 開發手札">
+      <meta itemprop="description" content="在 Ubuntu 上使用 Docker 架設 Seq">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          使用 OpenSSL 建立 Self-Signed Certificate
+          使用 Seq 作為 Log 管理工具 - (1)
         </h1>
 
         <div class="post-meta-container">
@@ -186,15 +188,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2023-12-26 10:45:16" itemprop="dateCreated datePublished" datetime="2023-12-26T10:45:16+08:00">2023-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-01-18 00:55:50" itemprop="dateModified" datetime="2024-01-18T00:55:50+08:00">2024-01-18</time>
+      <time title="Created: 2024-05-10 13:49:14 / Modified: 15:55:37" itemprop="dateCreated datePublished" datetime="2024-05-10T13:49:14+08:00">2024-05-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -209,24 +205,49 @@
   
 </div>
 
-            <div class="post-description">使用 OpenSSL 建立 Self-Signed Certificate</div>
+            <div class="post-description">在 Ubuntu 上使用 Docker 架設 Seq</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>以 Windows 系統為例，開發環境已安裝 Git，直接使用 Git 的 OpenSSL，路徑 <code>C:\Program Files\Git\usr\bin\openssl.exe</code>，版本 <code>3.1.1</code>。</p>
-<h2 id="建立憑證"><a href="#建立憑證" class="headerlink" title="建立憑證"></a>建立憑證</h2><h3 id="建立-test-conf"><a href="#建立-test-conf" class="headerlink" title="建立 test.conf"></a>建立 <code>test.conf</code></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[req]</span><br><span class="line">default_md = sha256</span><br><span class="line">default_bits = 2048</span><br><span class="line">distinguished_name = req_distinguished_name</span><br><span class="line">x509_extensions = v3_ca</span><br><span class="line">prompt = no</span><br><span class="line"></span><br><span class="line">[req_distinguished_name]</span><br><span class="line">C = TW</span><br><span class="line">ST = Taiwan</span><br><span class="line">L = New Taipei</span><br><span class="line">O = Test Inc.</span><br><span class="line">OU = IT Department</span><br><span class="line">CN = localhost</span><br><span class="line">emailAddress = admin@test.com</span><br><span class="line"></span><br><span class="line">[v3_ca]</span><br><span class="line">subjectAltName = @subject_alt_names</span><br><span class="line">extendedKeyUsage  = serverAuth</span><br><span class="line"></span><br><span class="line">[subject_alt_names]</span><br><span class="line">DNS.1 = *.test.com</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><p>官網 <a target="_blank" rel="noopener" href="https://datalust.co/seq">Seq</a></p>
+<p>Seq 可以架設在 Windows 或 Docker 上，本文以在 Ubuntu 的 Docker為例。</p>
+<h2 id="用-Docker-建置"><a href="#用-Docker-建置" class="headerlink" title="用 Docker 建置"></a>用 Docker 建置</h2><ol>
+<li><p>執行 Container</p>
+<p>預設會有一組 <code>admin</code> (Username) 帳號，使用 Seq 指令將密碼 <code>&lt;password&gt;</code> 作 Hash 後設定在環境變數，執行 Container 時讀取。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PH=$(echo &#x27;&lt;password&gt;&#x27; | docker run --rm -i datalust/seq config hash)</span><br></pre></td></tr></table></figure>
 
-<h3 id="建立-key-和-crt"><a href="#建立-key-和-crt" class="headerlink" title="建立 .key 和 .crt"></a>建立 <code>.key</code> 和 <code>.crt</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;C:\Program Files\Git\usr\bin\openssl.exe&quot;</span> req -x509 -new -newkey rsa -noenc -utf8 -days 30 -keyout C:\Projects\Certificates\test.key -out C:\Projects\Certificates\test.crt -config C:\Projects\Certificates\test.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name seq \</span><br><span class="line">-d \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">-e ACCEPT_EULA=Y \</span><br><span class="line">-e SEQ_API_CANONICALURI=https://&lt;seq_host&gt;/ \</span><br><span class="line">-e SEQ_FIRSTRUN_ADMINPASSWORDHASH=&quot;$PH&quot; \</span><br><span class="line">-v &lt;host_data&gt;:/data \</span><br><span class="line">-p &lt;host_ui_port&gt;:443 \</span><br><span class="line">-p &lt;host_ingestion_port&gt;:45341 \</span><br><span class="line">datalust/seq</span><br></pre></td></tr></table></figure>
 
-<h3 id="建立-pfx"><a href="#建立-pfx" class="headerlink" title="建立 .pfx"></a>建立 <code>.pfx</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;C:\Program Files\Git\usr\bin\openssl.exe&quot;</span> pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> C:\Projects\Certificates\test.crt -inkey C:\Projects\Certificates\test.key -out C:\Projects\Certificates\test.pfx -name <span class="string">&quot;Test Certificate&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="OpenSSL"><a href="#OpenSSL" class="headerlink" title="OpenSSL"></a>OpenSSL</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.openssl.org/docs/man3.1/man1/openssl-req.html">openssl-req</a></p>
+<p>下列參數依環境調整</p>
+<p><code>SEQ_API_CANONICALURI</code>：Seq server 的 base URL</p>
+<p><code>SEQ_FIRSTRUN_ADMINPASSWORDHASH</code>： <code>admin</code> 帳號密碼，從環境變數讀取。</p>
+<p><code>&lt;host_data&gt;</code>： 本機 <code>data</code> 路徑</p>
+<p><code>&lt;host_ui_port&gt;</code>：本機 Seq UI 和 API 的 Port</p>
+<p>Container 預設使用 <code>Port 443</code> (HTTPS)，<code>Port 80</code> (HTTP)。</p>
+<p><code>&lt;host_ingestion_port&gt;</code>：本機 <code>ingestion-only</code> 的 Port，也就是接收 Log 用的。</p>
+<p>Container 預設使用 <code>Port 45341</code> (HTTPS)，<code>Port 5341</code> (HTTP)。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://www.openssl.org/docs/man3.1/man1/openssl-pkcs12.html">openssl-pkcs12</a></p>
+<li><p>設定 SSL 憑證</p>
+<p>在 Container 建立憑證路徑 <code>/data/Certificates</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec seq mkdir /data/Certificates</span><br></pre></td></tr></table></figure>
+
+<p>從本機複製憑證到 Container</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp &lt;certificate&gt;.pfx seq:/data/Certificates/443.pfx</span><br><span class="line">docker cp &lt;certificate&gt;.pfx seq:/data/Certificates/45341.pfx</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;certificate&gt;.pfx</code>：本機憑證路徑</p>
+<p>憑證也支援 <code>.pem</code> 格式，請自行參考官方文件。</p>
+<p>在 Container 設定憑證密碼，<code>&lt;password&gt;</code>為憑證密碼。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">進入 Container</span></span><br><span class="line">docker exec -it seq bash</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 Seq 指令將密碼設定在 Config</span></span><br><span class="line">echo &lt;password&gt; | seqsvr secret set -k certificates.defaultPassword --value-stdin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">離開 Container</span></span><br><span class="line">exit</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重新啟動 Container</span></span><br><span class="line">docker restart seq</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="用-admin-帳號登入"><a href="#用-admin-帳號登入" class="headerlink" title="用 admin 帳號登入"></a>用 <code>admin</code> 帳號登入</h2><p>https:&#x2F;&#x2F;<seq_host>:<host_ui_port>&#x2F;</p>
+<p><img src="/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/2024-05-07_180436.png" alt="image info"></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.datalust.co/docs/getting-started-with-docker">Getting Started with Docker</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.datalust.co/docs/https-tlsssl">HTTPS (TLS&#x2F;SSL)</a></p>
 </li>
 </ul>
 
@@ -242,14 +263,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/12/25/reading-list/" rel="prev" title="Reading List">
-                  <i class="fa fa-angle-left"></i> Reading List
+                <a href="/2024/04/12/cqrs-with-mediatr/" rel="prev" title="使用 MediatR 實作 CQRS">
+                  <i class="fa fa-angle-left"></i> 使用 MediatR 實作 CQRS
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/12/26/oauth-samples/" rel="next" title="在 ASP.NET Web Forms 上使用 OAuth">
-                  在 ASP.NET Web Forms 上使用 OAuth <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
