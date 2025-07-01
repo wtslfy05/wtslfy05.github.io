@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"slajabass.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介紹如何設計短網址產生器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系統設計學習筆記 - URL Shortener (短網址產生器) - (1)">
+<meta property="og:url" content="https://slajabass.com/2025/07/02/url-shortener-design/index.html">
+<meta property="og:site_name" content="茶葉先生的 .NET 開發手札">
+<meta property="og:description" content="介紹如何設計短網址產生器">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-07-01T18:56:39.000Z">
+<meta property="article:modified_time" content="2025-07-01T19:05:18.473Z">
+<meta property="article:author" content="茶葉先生">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://slajabass.com/2025/07/02/url-shortener-design/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://slajabass.com/2025/07/02/url-shortener-design/","path":"2025/07/02/url-shortener-design/","title":"系統設計學習筆記 - URL Shortener (短網址產生器) - (1)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>系統設計學習筆記 - URL Shortener (短網址產生器) - (1) | 茶葉先生的 .NET 開發手札</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">茶葉先生的 .NET 開發手札</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%84%AA%E9%BB%9E"><span class="nav-number">1.</span> <span class="nav-text">優點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E9%BB%9E"><span class="nav-number">2.</span> <span class="nav-text">缺點</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%BA%90%E4%BC%B0%E7%AE%97"><span class="nav-number"></span> <span class="nav-text">資源估算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E8%A8%AD%E6%A2%9D%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">假設條件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage"><span class="nav-number">2.</span> <span class="nav-text">Storage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query-rate"><span class="nav-number">3.</span> <span class="nav-text">Query rate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bandwidth"><span class="nav-number">4.</span> <span class="nav-text">Bandwidth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory"><span class="nav-number">5.</span> <span class="nav-text">Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server-%E6%95%B8%E9%87%8F"><span class="nav-number">6.</span> <span class="nav-text">Server 數量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E9%9A%8E%E8%A8%AD%E8%A8%88"><span class="nav-number"></span> <span class="nav-text">高階設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-Endpoints"><span class="nav-number">1.</span> <span class="nav-text">API Endpoints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL-redirecting"><span class="nav-number">2.</span> <span class="nav-text">URL redirecting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL-shortening"><span class="nav-number">3.</span> <span class="nav-text">URL shortening</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E8%A8%AD%E8%A8%88"><span class="nav-number"></span> <span class="nav-text">深入設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#URL-shortening-1"><span class="nav-number">1.</span> <span class="nav-text">URL shortening</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL-redirecting-1"><span class="nav-number">2.</span> <span class="nav-text">URL redirecting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number"></span> <span class="nav-text">References</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">茶葉先生</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2025/07/02/url-shortener-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="茶葉先生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="茶葉先生的 .NET 開發手札">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="系統設計學習筆記 - URL Shortener (短網址產生器) - (1) | 茶葉先生的 .NET 開發手札">
+      <meta itemprop="description" content="介紹如何設計短網址產生器">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          系統設計學習筆記 - URL Shortener (短網址產生器) - (1)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-07-02 02:56:39 / Modified: 03:05:18" itemprop="dateCreated datePublished" datetime="2025-07-02T02:56:39+08:00">2025-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/System-Design/" itemprop="url" rel="index"><span itemprop="name">System Design</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">介紹如何設計短網址產生器</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>短網址產生器是用別名來代替原始 URL，即短網址，瀏覽短網址會重新導向到原始 URL。</p>
+<h3 id="優點"><a href="#優點" class="headerlink" title="優點"></a>優點</h3><ul>
+<li><p>易於分享</p>
+</li>
+<li><p>節省儲存空間</p>
+</li>
+</ul>
+<h3 id="缺點"><a href="#缺點" class="headerlink" title="缺點"></a>缺點</h3><ul>
+<li><p>無法直接識別原始服務的 Domain</p>
+</li>
+<li><p>會受到短網址服務的運行狀態影響，導致短網址失效</p>
+</li>
+</ul>
+<h2 id="資源估算"><a href="#資源估算" class="headerlink" title="資源估算"></a>資源估算</h2><h3 id="假設條件"><a href="#假設條件" class="headerlink" title="假設條件"></a>假設條件</h3><ul>
+<li><p>Shortening:redirection request ratio 為 1:100</p>
+</li>
+<li><p>每月產生 200 million 個新的短網址</p>
+</li>
+<li><p>每個短網址需要 500 bytes 的儲存空間</p>
+</li>
+<li><p>過期時間為五年，不支援更新、刪除</p>
+</li>
+<li><p>Daily Active Users (DAU) 為 100 million</p>
+</li>
+</ul>
+<h3 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h3><p>每月 200 million 個 shortening request，共 5 年</p>
+<p><code>200 million/month × 12 months/year × 5 years = 12 billion</code></p>
+<p>每個短網址 500 bytes</p>
+<p><code>12 billion × 500 bytes = 6 TB</code></p>
+<h3 id="Query-rate"><a href="#Query-rate" class="headerlink" title="Query rate"></a>Query rate</h3><p>Shortening:redirection request ratio 為 1:100，每月 redirection request</p>
+<p><code>200 million × 100 = 20 billion</code></p>
+<p>接下來估算 Queries Per Second (QPS)，每月平均 30.42 天</p>
+<p><code>30.42 days × 24 hours × 60 minutes × 60 seconds = 2628288 seconds</code></p>
+<p>Shortening request</p>
+<p><code>200 million / 2628288 seconds = 76 URLs/s</code></p>
+<p>Redirection request</p>
+<p><code>100 × 76 URLs/s = 7.6K URLs/s</code></p>
+<h3 id="Bandwidth"><a href="#Bandwidth" class="headerlink" title="Bandwidth"></a>Bandwidth</h3><p>Shortening request</p>
+<p><code>76 × 500 bytes × 8 bits = 304 Kbps</code></p>
+<p>Redirection request</p>
+<p><code>7.6K × 500 bytes × 8 bits = 30.4 Mbps</code></p>
+<h3 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h3><p>快取頻繁存取的 redirection request，假設進來的流量符合 80&#x2F;20 法則，20% 的 redirection request 產生 80% 的流量，則每日</p>
+<p><code>7.6K × 3600 seconds × 24 hours = 0.66 billion</code></p>
+<p><code>0.2 × 0.66 billion × 500 bytes = 66 GB</code></p>
+<h3 id="Server-數量"><a href="#Server-數量" class="headerlink" title="Server 數量"></a>Server 數量</h3><p>假設每台 server 的 Requests Per Second (RPS) 為 64000，peak load times 為 100 million RPS</p>
+<p><code>100 million / 64000 = 1562.5 ≈ 1.6K servers</code></p>
+<h2 id="高階設計"><a href="#高階設計" class="headerlink" title="高階設計"></a>高階設計</h2><h3 id="API-Endpoints"><a href="#API-Endpoints" class="headerlink" title="API Endpoints"></a>API Endpoints</h3><p>使用 RESTful API，需要兩個端點，一個產生短網址，一個做重新導向</p>
+<ol>
+<li><p>URL shortening</p>
+<p> POST api&#x2F;v1&#x2F;data&#x2F;shorten</p>
+<ul>
+<li><p>Request parameter: {longUrl: longURLString}</p>
+</li>
+<li><p>Return shortURL</p>
+</li>
+</ul>
+</li>
+<li><p>URL redirecting</p>
+<p> GET api&#x2F;v1&#x2F;shortUrl</p>
+<ul>
+<li>Return longURL for HTTP redirection</li>
+</ul>
+</li>
+</ol>
+<h3 id="URL-redirecting"><a href="#URL-redirecting" class="headerlink" title="URL redirecting"></a>URL redirecting</h3><p>Server 收到 request 後，使用 301 或 302 redirect，重新導向短網址到原始 URL</p>
+<ul>
+<li><p>301 redirect</p>
+<p>  瀏覽器快取 response 後，相同 URL 的 request 不會再送到短網址服務</p>
+</li>
+<li><p>302 redirect</p>
+<p>  相同 URL 的 request 會再送到短網址服務</p>
+</li>
+</ul>
+<p>301 redirect 可以減少 server load，而 302 redirect 可以追蹤點擊率和點擊來源</p>
+<h3 id="URL-shortening"><a href="#URL-shortening" class="headerlink" title="URL shortening"></a>URL shortening</h3><p>使用 Base 62 轉換，產生短網址如 <a target="_blank" rel="noopener" href="http://www.tinyurl.com/%7BshortURL%7D">www.tinyurl.com/{shortURL}</a></p>
+<h2 id="深入設計"><a href="#深入設計" class="headerlink" title="深入設計"></a>深入設計</h2><h3 id="URL-shortening-1"><a href="#URL-shortening-1" class="headerlink" title="URL shortening"></a>URL shortening</h3><ol>
+<li><p>假設 input longURL 為 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Systems_design">https://en.wikipedia.org/wiki/Systems_design</a></p>
+</li>
+<li><p>產生 unique ID: 2009215674938</p>
+</li>
+<li><p>使用 Base 62 將 ID (2009215674938) 轉換為 zn9edcu</p>
+</li>
+<li><p>儲存到資料庫</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>shortURL</th>
+<th>longURL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2009215674938</td>
+<td>zn9edcu</td>
+<td><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Systems_design">https://en.wikipedia.org/wiki/Systems_design</a></td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="URL-redirecting-1"><a href="#URL-redirecting-1" class="headerlink" title="URL redirecting"></a>URL redirecting</h3><ol>
+<li><p>User 點擊短網址 <a target="_blank" rel="noopener" href="https://tinyurl.com/zn9edcu">https://tinyurl.com/zn9edcu</a></p>
+</li>
+<li><p>Load balancer 轉送 request 到 web server</p>
+</li>
+<li><p>如果 shortURL 在 cache 裡，直接回傳 longURL</p>
+</li>
+<li><p>如果 shortURL 不在 cache 裡，從 DB 取得 longURL。如果 longURL 不在 DB 裡，user 可能輸入錯誤</p>
+</li>
+<li><p>回傳 longURL 給 user</p>
+</li>
+</ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9798664653403?list_name=lv">System Design Interview – An Insider’s Guide. By Alex Xu</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.educative.io/courses/grokking-the-system-design-interview/system-design-tinyurl">System Design: TinyURL</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/05/10/seq-with%E2%80%94docker-on-ubuntu/" rel="prev" title="使用 Seq 作為 Log 管理工具 - (1)">
+                  <i class="fa fa-angle-left"></i> 使用 Seq 作為 Log 管理工具 - (1)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">茶葉先生</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wtslfy05/wtslfy05.github.io","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
