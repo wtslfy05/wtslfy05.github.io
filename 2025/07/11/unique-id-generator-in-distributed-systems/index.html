@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png">
 <meta property="article:published_time" content="2025-07-11T07:38:31.000Z">
-<meta property="article:modified_time" content="2025-07-11T09:10:34.742Z">
+<meta property="article:modified_time" content="2025-07-11T09:12:56.397Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png">
@@ -190,7 +190,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-07-11 15:38:31 / Modified: 17:10:34" itemprop="dateCreated datePublished" datetime="2025-07-11T15:38:31+08:00">2025-07-11</time>
+      <time title="Created: 2025-07-11 15:38:31 / Modified: 17:12:56" itemprop="dateCreated datePublished" datetime="2025-07-11T15:38:31+08:00">2025-07-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -269,8 +269,8 @@
 </ul>
 <h2 id="深入設計"><a href="#深入設計" class="headerlink" title="深入設計"></a>深入設計</h2><p>以 Twitter snowflake approach 為基礎設計</p>
 <p>Datacenter IDs 和 machine IDs 在系統啟動時決定，Timestamp 和 Sequence number 在產生 ID 決定。</p>
-<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3><p>Timestamp 隨時間增加，因此 ID 可用時間排序。圖 1 表示 binary 如何轉換為 UTC</p>
-<p><img src="/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png" alt="image info"><br>圖1[1]</p>
+<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3><p>Timestamp 隨時間增加，因此 ID 可用時間排序。參考[1]，下圖表示 binary 如何轉換為 UTC</p>
+<p><img src="/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png" alt="image info"></p>
 <p>Timestamp 為 41 bits，可表示 2 ^ 41 - 1 &#x3D; 2199023255551 milliseconds (ms)，約 69 years &#x3D; 2199023255551 ms &#x2F; 1000 seconds &#x2F; 365 days &#x2F; 24 hours&#x2F; 3600 seconds。</p>
 <h3 id="Sequence-number"><a href="#Sequence-number" class="headerlink" title="Sequence number"></a>Sequence number</h3><p>Sequence number 為 12 bits，共有 2 ^ 12 &#x3D; 4096 種組合。只有在同一台 server，同時間 (millisecond) 產生多個 ID 時，才會有非零值。也就是說，最多可以產生 4096 個 ID。</p>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
