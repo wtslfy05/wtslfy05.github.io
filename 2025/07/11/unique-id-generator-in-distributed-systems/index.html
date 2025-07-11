@@ -20,23 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"slajabass.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="茶葉先生的 .NET 開發手札">
-<meta property="og:url" content="https://slajabass.com/page/2/index.html">
+    <meta name="description" content="介紹如何在分散式系統設計 Unique ID Generator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系統設計學習筆記 - Unique ID Generator in Distributed Systems">
+<meta property="og:url" content="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/index.html">
 <meta property="og:site_name" content="茶葉先生的 .NET 開發手札">
+<meta property="og:description" content="介紹如何在分散式系統設計 Unique ID Generator">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png">
+<meta property="article:published_time" content="2025-07-11T07:38:31.000Z">
+<meta property="article:modified_time" content="2025-07-11T09:06:52.537Z">
 <meta property="article:author" content="茶葉先生">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png">
 
 
-<link rel="canonical" href="https://slajabass.com/page/2/">
+<link rel="canonical" href="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/","path":"2025/07/11/unique-id-generator-in-distributed-systems/","title":"系統設計學習筆記 - Unique ID Generator in Distributed Systems"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>茶葉先生的 .NET 開發手札</title>
+<title>系統設計學習筆記 - Unique ID Generator in Distributed Systems | 茶葉先生的 .NET 開發手札</title>
   
 
 
@@ -69,7 +75,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">茶葉先生的 .NET 開發手札</h1>
+      <p class="site-title">茶葉先生的 .NET 開發手札</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -95,7 +101,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -108,6 +114,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E8%A8%88%E7%AF%84%E5%9C%8D"><span class="nav-number">1.</span> <span class="nav-text">設計範圍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E9%9A%8E%E8%A8%AD%E8%A8%88"><span class="nav-number"></span> <span class="nav-text">高階設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Twitter-snowflake-approach"><span class="nav-number">1.</span> <span class="nav-text">Twitter snowflake approach</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E8%A8%AD%E8%A8%88"><span class="nav-number"></span> <span class="nav-text">深入設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Timestamp"><span class="nav-number">1.</span> <span class="nav-text">Timestamp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequence-number"><span class="nav-number">2.</span> <span class="nav-text">Sequence number</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number"></span> <span class="nav-text">References</span></a></div>
         </div>
         <!--/noindex-->
 
@@ -142,17 +149,18 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2023/12/26/self-signed-certificate/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2025/07/11/unique-id-generator-in-distributed-systems/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,13 +173,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 茶葉先生的 .NET 開發手札">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="系統設計學習筆記 - Unique ID Generator in Distributed Systems | 茶葉先生的 .NET 開發手札">
+      <meta itemprop="description" content="介紹如何在分散式系統設計 Unique ID Generator">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/26/self-signed-certificate/" class="post-title-link" itemprop="url">使用 OpenSSL 建立 Self-Signed Certificate</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          系統設計學習筆記 - Unique ID Generator in Distributed Systems
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -180,15 +188,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2023-12-26 10:45:16" itemprop="dateCreated datePublished" datetime="2023-12-26T10:45:16+08:00">2023-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-01-18 00:55:50" itemprop="dateModified" datetime="2024-01-18T00:55:50+08:00">2024-01-18</time>
+      <time title="Created: 2025-07-11 15:38:31 / Modified: 17:06:52" itemprop="dateCreated datePublished" datetime="2025-07-11T15:38:31+08:00">2025-07-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -196,30 +198,85 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
+          <a href="/categories/System-Design/" itemprop="url" rel="index"><span itemprop="name">System Design</span></a>
         </span>
     </span>
 
   
 </div>
 
+            <div class="post-description">介紹如何在分散式系統設計 Unique ID Generator</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <p>使用 OpenSSL 建立 Self-Signed Certificate</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/26/self-signed-certificate/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+    <div class="post-body" itemprop="articleBody"><p>我們可以透過 Unique ID 識別唯一的資料，在分散式系統中，可以使用 Twitter snowflake approach 來產生 Unique ID。</p>
+<h3 id="設計範圍"><a href="#設計範圍" class="headerlink" title="設計範圍"></a>設計範圍</h3><p>假設條件</p>
+<ul>
+<li><p>唯一、可排序</p>
+</li>
+<li><p>依時間遞增</p>
+</li>
+<li><p>只包含數字</p>
+</li>
+<li><p>長度 64-bit</p>
+</li>
+<li><p>每秒可產生 10,000 個</p>
+</li>
+</ul>
+<h2 id="高階設計"><a href="#高階設計" class="headerlink" title="高階設計"></a>高階設計</h2><p>下列為幾種常見的 Unique ID 演算法</p>
+<ul>
+<li><p>Multi-master replication</p>
+</li>
+<li><p>Universally unique identifier (UUID)</p>
+</li>
+<li><p>Ticket server</p>
+</li>
+<li><p>Twitter snowflake approach</p>
+</li>
+</ul>
+<h3 id="Twitter-snowflake-approach"><a href="#Twitter-snowflake-approach" class="headerlink" title="Twitter snowflake approach"></a>Twitter snowflake approach</h3><table>
+<thead>
+<tr>
+<th>1 bit</th>
+<th>41 bits</th>
+<th>5 bits</th>
+<th>5 bits</th>
+<th>12 bits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sign</td>
+<td>Timestamp</td>
+<td>Datacenter ID</td>
+<td>Machine ID</td>
+<td>Sequence number</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>Sign bit: 1 bit。用來識別 signed 和 unsigned numbers，目前皆為 0 (unsigned numbers)，1 (signed numbers) 保留在未來使用。</p>
+</li>
+<li><p>Timestamp: 41 bits。表示從 epoch 為開始計算的 Milliseconds， Twitter<br>snowflake 使用 1288834974657 為預設的 epoch，即 Nov 04, 2010, 01:42:54 UTC。</p>
+</li>
+<li><p>Datacenter ID: 5 bits。表示有 2 ^ 5 &#x3D; 32 datacenters</p>
+</li>
+<li><p>Machine ID: 5 bits。表示每個 datacenter 有 2 ^ 5 &#x3D; 32 machines</p>
+</li>
+<li><p>Sequence number: 12 bits。每個 machine&#x2F;process 產生的 sequence number 以 1 遞增，每 millisecond 重設為 0。</p>
+</li>
+</ul>
+<h2 id="深入設計"><a href="#深入設計" class="headerlink" title="深入設計"></a>深入設計</h2><p>以 Twitter snowflake approach 為基礎設計</p>
+<p>Datacenter IDs 和 machine IDs 在系統啟動時決定，Timestamp 和 Sequence number 在產生 ID 決定。</p>
+<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3><p>Timestamp 隨時間增加，因此 ID 可用時間排序。圖 1 表示 binary 如何轉換為 UTC</p>
+<p><img src="/2025/07/11/unique-id-generator-in-distributed-systems/2025-07-11_44134.png" alt="image info" title="圖1[1]"></p>
+<p>Timestamp 為 41 bits，可表示 2 ^ 41 - 1 &#x3D; 2199023255551 milliseconds (ms)，約 69 years &#x3D; 2199023255551 ms &#x2F; 1000 seconds &#x2F; 365 days &#x2F; 24 hours&#x2F; 3600 seconds。</p>
+<h3 id="Sequence-number"><a href="#Sequence-number" class="headerlink" title="Sequence number"></a>Sequence number</h3><p>Sequence number 為 12 bits，共有 2 ^ 12 &#x3D; 4096 種組合。只有在同一台 server，同時間 (millisecond) 產生多個 ID 時，才會有非零值。也就是說，最多可以產生 4096 個 ID。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li>[1] <a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9798664653403?list_name=lv">System Design Interview – An Insider’s Guide. By Alex Xu</a></li>
+</ul>
+
     </div>
 
     
@@ -227,100 +284,18 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://slajabass.com/2023/12/25/reading-list/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="茶葉先生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="茶葉先生的 .NET 開發手札">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 茶葉先生的 .NET 開發手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/25/reading-list/" class="post-title-link" itemprop="url">Reading List</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-12-25 15:52:50" itemprop="dateCreated datePublished" datetime="2023-12-25T15:52:50+08:00">2023-12-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-04-18 14:44:11" itemprop="dateModified" datetime="2024-04-18T14:44:11+08:00">2024-04-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Reading-List/" itemprop="url" rel="index"><span itemprop="name">Reading List</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>書單、技術文章</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/25/reading-list/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/07/02/url-shortener-design/" rel="prev" title="系統設計學習筆記 - URL Shortener (短網址產生器)">
+                  <i class="fa fa-angle-left"></i> 系統設計學習筆記 - URL Shortener (短網址產生器)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -328,10 +303,9 @@
 
 
 
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
 
+
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
